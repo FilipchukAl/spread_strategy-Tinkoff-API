@@ -239,7 +239,6 @@ def trade (TOKEN, Order, Account_id, KolVo, FigiStock, OrderDirection):
                 order_id=Order,                                     # id заявки - текущее время
                 figi=FigiStock,                                     # Бумага
                 quantity=KolVo,                                     # Для бумаг где в лоте 1 шт.
-                #quantity=int(KolVo/10),                            # Для бумаг где в лоте 10 шт.
                 account_id=Account_id,
                 direction=OrderDirection,                           # Заявка на покупку или продажу
                 order_type=OrderType.ORDER_TYPE_BESTPRICE           # По лучшей цене
@@ -249,7 +248,6 @@ def trade (TOKEN, Order, Account_id, KolVo, FigiStock, OrderDirection):
                     #print('Купили/продали', int(KolVo/10), 'шт.')  # Для бумаг где в лоте 10 шт.
                 else: 
                     print('Продали', KolVo, 'шт.')                  # Для бумаг где в лоте 1 шт.
-                    #print('Купили/продали', int(KolVo/10), 'шт.')  # Для бумаг где в лоте 10 шт.
                 time.sleep(10)                                      # Даем время на покупку/продажу
                 break                                               # Выходим из цикла, если выставили заявку
             except Exception as e:  
