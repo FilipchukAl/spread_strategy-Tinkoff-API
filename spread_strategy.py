@@ -245,7 +245,6 @@ def trade (TOKEN, Order, Account_id, KolVo, FigiStock, OrderDirection):
                 )
                 if OrderDirection == OrderDirection.ORDER_DIRECTION_BUY: 
                     print('Купили', KolVo, 'шт.')                   # Для бумаг где в лоте 1 шт.
-                    #print('Купили/продали', int(KolVo/10), 'шт.')  # Для бумаг где в лоте 10 шт.
                 else: 
                     print('Продали', KolVo, 'шт.')                  # Для бумаг где в лоте 1 шт.
                 time.sleep(10)                                      # Даем время на покупку/продажу
