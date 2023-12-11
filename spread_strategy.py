@@ -59,7 +59,8 @@ def get_instrument_info(df: DataFrame, TICKER: Optional[str] = None, FIGI: Optio
                 'lot_size': filtered_df.iloc[0]['lot_size']
             }
         else:
-            return f"Тикер {TICKER} не найден."
+            print(f"Тикер {TICKER} не найден.")
+            time.sleep(300)
 
     elif FIGI:
         filtered_df = df[df['figi'] == FIGI]
@@ -71,10 +72,8 @@ def get_instrument_info(df: DataFrame, TICKER: Optional[str] = None, FIGI: Optio
                 'lot_size': filtered_df.iloc[0]['lot_size']
             }
         else:
-            return f"FIGI {FIGI} не найден."
-
-    return "Необходимо указать тикер или FIGI."
-
+            print(f"FIGI {FIGI} не найден.")
+            time.sleep(300)
 def user_input_token():
 
     while True:
