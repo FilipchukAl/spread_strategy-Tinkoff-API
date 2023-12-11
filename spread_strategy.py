@@ -74,6 +74,7 @@ def get_instrument_info(df: DataFrame, TICKER: Optional[str] = None, FIGI: Optio
         else:
             print(f"FIGI {FIGI} не найден.")
             time.sleep(300)
+            
 def user_input_token():
 
     while True:
