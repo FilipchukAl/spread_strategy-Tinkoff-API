@@ -245,7 +245,7 @@ def trade (TOKEN, Order, Account_id, KolVo, FigiStock, OrderDirection):
                 client.orders.post_order(                           # Создаем заявку
                 order_id=Order,                                     # id заявки - текущее время
                 figi=FigiStock,                                     # Бумага
-                quantity=KolVo,                                     # Для бумаг где в лоте 1 шт.
+                quantity=int(KolVo),                                     # Для бумаг где в лоте 1 шт.
                 account_id=Account_id,
                 direction=OrderDirection,                           # Заявка на покупку или продажу
                 order_type=OrderType.ORDER_TYPE_BESTPRICE           # По лучшей цене
@@ -328,17 +328,19 @@ if __name__ == '__main__':
                             trade (TOKEN, str(uuid.uuid4()), Account_id, KolVo_Pref, figi_Pref, OrderDirection.ORDER_DIRECTION_SELL)
                             
                             # Получаем информацию для покупки
+                            KPrefa, KObich, Securities, PositionResponse = get_portfolio_info(TOKEN, df)
                             spread, LastPrice_Ob, LastPrice_Pref = get_last_prices(TOKEN, figi_Ob, figi_Pref)
                             Money =  int(PositionResponse.money[0].units)
                             lot_size = info_Ob.get('lot_size', 'Информация о лотности не найдена')
                             KolVo = int(Money/LastPrice_Ob/lot_size*0.98)
+                            print(f'Денег {Money}, можем купить {KolVo} шт. по цене {LastPrice_Ob}')
                             trade (TOKEN, str(uuid.uuid4()), Account_id, KolVo, figi_Ob, OrderDirection.ORDER_DIRECTION_BUY)
 
-                        if figi_Ob_found > 0:
+                        elif figi_Ob_found > 0:
 
                             print('У нас в портфеле обычки', KolVo_Ob, 'шт. Ждем роста обычки.')
                             
-                        if figi_Ob_found == 0 and figi_Pref_found == 0:
+                        elif figi_Ob_found == 0 and figi_Pref_found == 0:
 
                             print(f'В портфеле нет акций {name_Ob}, нужно купить обычку')
 
@@ -346,6 +348,7 @@ if __name__ == '__main__':
                             spread, LastPrice_Ob, LastPrice_Pref = get_last_prices(TOKEN, figi_Ob, figi_Pref)
                             Money =  int(PositionResponse.money[0].units)
                             lot_size = info_Ob.get('lot_size', 'Информация о лотности не найдена')
+                            print(f'Денег {Money}, можем купить {KolVo} шт. по цене {LastPrice_Ob}')
                             KolVo = int(Money/LastPrice_Ob/lot_size*0.98)
                             trade (TOKEN, str(uuid.uuid4()), Account_id, KolVo, figi_Ob, OrderDirection.ORDER_DIRECTION_BUY)
                                 
@@ -388,17 +391,19 @@ if __name__ == '__main__':
                             trade (TOKEN, str(uuid.uuid4()), Account_id, KolVo_Ob, figi_Ob, OrderDirection.ORDER_DIRECTION_SELL)
 
                             # Получаем информацию для покупки
+                            KPrefa, KObich, Securities, PositionResponse = get_portfolio_info(TOKEN, df)
                             spread, LastPrice_Ob, LastPrice_Pref = get_last_prices(TOKEN, figi_Ob, figi_Pref)
                             Money =  int(PositionResponse.money[0].units)
                             lot_size = figi_Pref.get('lot_size', 'Информация о лотности не найдена')
                             KolVo = int(Money/LastPrice_Pref/lot_size*0.98)
+                            print(f'Денег {Money}, можем купить {KolVo} шт. по цене {LastPrice_Pref}')
                             trade (TOKEN, str(uuid.uuid4()), Account_id, KolVo, figi_Pref, OrderDirection.ORDER_DIRECTION_BUY)
 
-                        if figi_Pref_found > 0:
+                        elif figi_Pref_found > 0:
 
                             print('У нас в портфеле префов', KolVo_Pref, 'шт. Ждем роста префов.')
 
-                        if figi_Ob_found == 0 and figi_Pref_found == 0:
+                        elif figi_Ob_found == 0 and figi_Pref_found == 0:
 
                             print(f'В портфеле нет акций {name_Pref}, нужно купить обычку')
 
@@ -407,6 +412,7 @@ if __name__ == '__main__':
                             Money =  int(PositionResponse.money[0].units)
                             lot_size = figi_Pref.get('lot_size', 'Информация о лотности не найдена')
                             KolVo = int(Money/LastPrice_Pref/lot_size*0.98)
+                            print(f'Денег {Money}, можем купить {KolVo} шт. по цене {LastPrice_Pref}')
                             trade (TOKEN, str(uuid.uuid4()), Account_id, KolVo, figi_Pref, OrderDirection.ORDER_DIRECTION_BUY)
 
                         print("---------------------------------------------")
