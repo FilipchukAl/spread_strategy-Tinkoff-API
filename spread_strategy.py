@@ -273,6 +273,10 @@ if __name__ == '__main__':
     df = create_instruments_dataframe()
     print("---------------------------------------------")
     figi_Ob, figi_Pref = user_input_tiker(df)
+    info_Ob = get_instrument_info(df, FIGI=figi_Ob)
+    info_Pref = get_instrument_info(df, FIGI=figi_Pref)
+    name_Ob = info_Ob.get('name', 'Неизвестное название')
+    name_Pref = info_Pref.get('name', 'Неизвестное название')
     print("---------------------------------------------")
     print('Портфель:')
     KPrefa, KObich, Securities, PositionResponse = get_portfolio_info(TOKEN, df)
@@ -287,10 +291,6 @@ if __name__ == '__main__':
                 if is_weekday() and (is_within_time_interval(datetime.time(10, 0), datetime.time(18, 45)) or is_within_time_interval(datetime.time(19, 0), datetime.time(23, 59))):
 
                     spread, LastPrice_Ob, LastPrice_Pref = get_last_prices(TOKEN, figi_Ob, figi_Pref)
-                    info_Ob = get_instrument_info(df, FIGI=figi_Ob)
-                    info_Pref = get_instrument_info(df, FIGI=figi_Pref)
-                    name_Ob = info_Ob.get('name', 'Неизвестное название')
-                    name_Pref = info_Pref.get('name', 'Неизвестное название')
 
                     # Спред меньше price_1 покупаем обычку если ничего нет, или продаем префа и покупаем обычку
                     if spread < price_1:
@@ -394,7 +394,7 @@ if __name__ == '__main__':
                             KPrefa, KObich, Securities, PositionResponse = get_portfolio_info(TOKEN, df)
                             spread, LastPrice_Ob, LastPrice_Pref = get_last_prices(TOKEN, figi_Ob, figi_Pref)
                             Money =  int(PositionResponse.money[0].units)
-                            lot_size = figi_Pref.get('lot_size', 'Информация о лотности не найдена')
+                            lot_size = info_Pref.get('lot_size', 'Информация о лотности не найдена')
                             KolVo = int(Money/LastPrice_Pref/lot_size*0.98)
                             print(f'Денег {Money}, можем купить {KolVo} шт. по цене {LastPrice_Pref}')
                             trade (TOKEN, str(uuid.uuid4()), Account_id, KolVo, figi_Pref, OrderDirection.ORDER_DIRECTION_BUY)
@@ -410,7 +410,7 @@ if __name__ == '__main__':
                             # Получаем информацию для покупки
                             spread, LastPrice_Ob, LastPrice_Pref = get_last_prices(TOKEN, figi_Ob, figi_Pref)
                             Money =  int(PositionResponse.money[0].units)
-                            lot_size = figi_Pref.get('lot_size', 'Информация о лотности не найдена')
+                            lot_size = info_Pref.get('lot_size', 'Информация о лотности не найдена')
                             KolVo = int(Money/LastPrice_Pref/lot_size*0.98)
                             print(f'Денег {Money}, можем купить {KolVo} шт. по цене {LastPrice_Pref}')
                             trade (TOKEN, str(uuid.uuid4()), Account_id, KolVo, figi_Pref, OrderDirection.ORDER_DIRECTION_BUY)
